@@ -15,6 +15,7 @@
     "bcryptjs": "^3.0.2",
     "browserslist": "^4.26.3",
     "caniuse-lite": "^1.0.30001749",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
     "electron-to-chromium": "^1.5.233",
     "escalade": "^3.2.0",
