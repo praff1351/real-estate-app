@@ -2,8 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from "../firebase";
-import { updateUserStart, updateUserFailure, updateUserSuccess, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess } from '../redux/user/userSlice';
+import { updateUserStart, updateUserFailure, updateUserSuccess, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess } from '../redux/user/userSlice.js';
 import { useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
 
 
 const Profile = () => {
@@ -60,13 +61,9 @@ const Profile = () => {
 
     try {
       dispatch(updateUserStart());
-
-
-
       const dataToSend = {
         ...currentUser,
         ...formData,
-        
       };
       console.log("Form data before update: ", dataToSend);
       
@@ -101,7 +98,7 @@ const Profile = () => {
         }
       );
       const data = await res.json();
-      if(!data.success===false){
+      if(data.success===false){
         dispatch(deleteUserFailure(data.message));
         return;
       }
@@ -116,20 +113,26 @@ const Profile = () => {
 
   };
 
-  const handleSignOut = async () => {
+  const handleSignOut =async()=>{
     try {
       dispatch(signOutUserStart());
-      const res = await fetch('/api/auth/signout');
+
+      const res= await fetch(`/api/auth/signout`);
+
       const data = await res.json();
-      if (data.success === false) {
-        dispatch(deleteUserFailure(data.message));
-        return;
-      }
-      dispatch(deleteUserSuccess(data));
+
+      if(data.success===false){
+        dispatch(signOutUserFailure(data.message));
+          return;
+        }
+        dispatch(signOutUserSuccess(data));
+
     } catch (error) {
-      dispatch(deleteUserFailure(data.message));
+      dispatch(signOutUserFailure(data.message));
+      
     }
-  };
+
+  }
 
   return (
     <div className='p-3 max-w-lg mx-auto'>
@@ -192,6 +195,13 @@ const Profile = () => {
           
           {loading ? "loading..." : "update"}
         </button>
+
+
+        <Link className='bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95' to={"/create-listing"}>
+        Create Listing
+        </Link>
+
+
       </form>
 
       <div className='flex justify-between mt-5'>
