@@ -68,10 +68,11 @@ const Profile = () => {
       console.log("Form data before update: ", dataToSend);
       
       const res = await fetch(`/api/user/update/${currentUser._id}`,{
-        method:"POST",
+        method:'POST',
         headers:{
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body:JSON.stringify(formData),
       });
       const data = await res.json();
@@ -95,6 +96,7 @@ const Profile = () => {
       const res = await fetch(`/api/user/delete/${currentUser._id}`,
         {
           method:'DELETE',
+          credentials: 'include',
         }
       );
       const data = await res.json();
@@ -117,7 +119,9 @@ const Profile = () => {
     try {
       dispatch(signOutUserStart());
 
-      const res= await fetch(`/api/auth/signout`);
+      const res= await fetch(`/api/auth/signout`, {
+        credentials: 'include',
+      });
 
       const data = await res.json();
 
