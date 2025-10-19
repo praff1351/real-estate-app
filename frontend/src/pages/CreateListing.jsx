@@ -165,7 +165,6 @@ const handleSubmit = async(e)=>{
     }
     navigate(`/listing/${data._id}`)
 
-
   } catch (error) {
     setError(error.message);
     setLoading(false);

@@ -10,7 +10,14 @@ import cors from "cors";
 dotenv.config();
 
 mongoose
-.connect(process.env.MONGO)
+.connect(process.env.MONGO,{
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 10000,
+  ssl:true,
+  tlsAllowInvalidCertificates:true //for local dev on windows
+
+})
 .then(()=>{
   console.log("Connected to mongoDb"); 
 })
